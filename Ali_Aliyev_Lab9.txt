@@ -1,0 +1,76 @@
+#!/bin/bash
+#Lab9 section 311
+#Ali Aliyev
+#mycalc.sh
+#41013373
+#2021-04-02
+#
+
+function add(){ #summing function
+echo "Sum of $num1 and $num2 is equal to $(($num1+$num2))"
+}
+
+function subtract(){     #subtract function
+echo "Subtraction of $num1 from $num2 is equal to $(($num1-$num2))"
+}
+
+if [ "$2" == '+' ]   #if second arg is +
+then
+num1=$1
+num2=$3
+    add $num1 $num2 #call add function
+elif [ "$2" == '-' ]  #if second arg is -
+then
+num1=$1
+num2=$3
+    subtract $num1 $num2 #call subtract function
+elif [ $# -eq 0 ]  #if no args passed
+then
+    selectedMenu=r
+    while [ $selectedMenu != "x" ] || [ $selectedMenu != "X" ]; do
+    echo "C) Calculation"
+    echo -n "X) Exit  : "     #menu1
+    read selectedMenu
+        if [ $selectedMenu == "x" ] || [ $selectedMenu == "X" ]
+        then
+        break #if x, breaks the loop
+        
+        elif [ $selectedMenu == 'c' ] || [ $selectedMenu == 'C' ]
+        then #if c selected calculation
+        clear
+
+        echo -n "Please enter an integer number or X to exit: " 
+        read input1
+            if [ $input1 == "x" ] || [ $input == "X" ]
+            then break  #if x is entered loop breaks
+            fi
+
+        fi
+        clear
+        echo "+) Add"
+        echo "-) Subtract"
+        echo -n "x) Exit       enter your menu selection: " 
+        read selectedMenu
+                if [ $selectedMenu == "x" ] || [ $selectedMenu == "X" ]
+                then break #if x is entered loop breaks
+                elif [ $selectedMenu == '+' ] #if + add function called
+                then
+                echo -n "Enter second number: " 
+                read input2
+                num1=$input1
+                num2=$input2
+                add $num1 $num2 #passing args to add function
+                elif [ $selectedMenu == '-' ] #if - subtract function called
+                then
+                echo -n "Enter second number: " 
+                read input2
+                num1=$input1
+                num2=$input2
+                subtract $num1 $num2 #args passed to subtract function
+                fi
+    
+done
+echo "Good bye"   #when loop breaks
+else
+    echo "Error"
+fi

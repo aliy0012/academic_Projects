@@ -1,0 +1,62 @@
+#!/bin/bash
+#Lab9 section 311
+#Ali Aliyev
+#41013373
+#2021-04-02
+#wrinting bash script with while loop, to ask user to create account, delete account, change 
+#group, change login, change expiration or quit menu selections
+
+selectedMenu=r     #initalizing selectedMenu value
+while [ $selectedMenu != "Q" ] || [ $selectedMenu != "q" ]; do #while loop will continue till q entered
+    clear
+    echo -e "Choose one of the following options:" #listing menu options
+    echo -e "A to Create a user account\nB to Delete a user account\nC to change Supplementary Group for a user account\nD to change Initial Group for a user account\nE to Change default login shell for a user account\nF to change account expiration date for a user account\nQ to Quit"
+    read selectedMenu #assigning selected menu to selectedMenu variable
+    echo "You entered $selectedMenu"
+    sleep 3 #3 sec wait
+    if [ $selectedMenu == "A" ] || [ $selectedMenu == "a" ]
+    then #A menu selection will create user account, with home directory and shell preference
+        echo -n "Enter username: " ; read username
+        echo -n "User's home directory: " ; read directory
+        echo -n "Default login shell: " ; read loginShell
+        sudo useradd -d /home/$directory -s /bin/$loginShell $username
+        echo "$username User account created"
+        sleep 3 #3 sec wait
+    elif [ $selectedMenu == "b" ] || [ $selectedMenu == "B" ]
+    then #B selection will delete created user account in A
+        sudo userdel -f $username
+        echo "$username User account deleted"
+        sleep 3 #3 sec wait
+    elif [ $selectedMenu == "C" ] || [ $selectedMenu == "c" ]
+    then #C selection will change suplementary group name
+         echo -n "Enter group name: " ; read group
+            sudo usermod -a -G $group $username
+            echo "Supplementary group changed to $group"
+            sleep 3 #3 sec wait
+    elif [ $selectedMenu == "D" ] || [ $selectedMenu == "d" ]
+        then #D selection will change primary group name
+        echo -n "Enter primary group name: " ; read pGroup
+        sudo usermod -g $pGroup $username
+        echo "Initial group changed to $pGroup"
+        sleep 3 #3 sec wait
+    elif [ $selectedMenu == "e" ] || [ $selectedMenu == "E" ]
+    then #E selection will ask for shell preference
+        echo -n "Enter shell selection: " ; read shell
+        sudo usermod -s /bin/$shell $username
+        echo "Login shell changed to $shell"
+        sleep 3 #3 sec wait
+    elif [ $selectedMenu == "f" ] || [ $selectedMenu == "F" ]
+    then #F will set expiration
+        echo "Enter expiration for the account YYYY-MM-DD: " ; read exp
+        sudo usermod -e $exp $username
+        echo "Expiration set to $exp"
+        sleep 3 #3 sec wait
+    elif [ $selectedMenu == "q" ] || [ $selectedMenu == "Q" ]
+    then #Q selection will quit script
+        break
+    else #other than listed menu selection entered, will output wrong input on screen
+        echo "Wrong input"
+        sleep 3 #3 sec wait
+    fi
+done
+echo "Script ended" #after Q selection, message on screen
